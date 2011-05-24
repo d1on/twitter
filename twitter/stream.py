@@ -60,3 +60,34 @@ class TwitterStream(TwitterStreamCall):
             self, auth=auth, format="json", domain=domain,
             callable_cls=TwitterStreamCall,
             secure=secure, uriparts=uriparts)
+
+class TwitterUserStream(TwitterStreamCall):
+    """
+    Interface to the Twitter User Streams API (userstream.twitter.com). This can
+    be used pretty much the same as the Twitter class except the
+    result of calling a method will be an iterator that yields objects
+    decoded from the stream. For example::
+
+        auth = twitter.oauth.OAuth(ACCESS_KEY, ACCESS_SECRET, 
+                                   CONSUMER_KEY, CONSUMER_SECRET)
+
+        twitter_stream = twitter.stream.TwitterStream(auth=twitter_auth)
+
+        iterator = twitter_stream.statuses.user()
+
+        for tweet in iterator:
+            ...do something with this tweet...
+
+    The iterator will yield tweets forever and ever (until the stream
+    breaks at which point it raises a TwitterHTTPError.)
+    """
+    def __init__(
+        self, domain="userstream.twitter.com", secure=True, auth=None,
+        api_version='2'):
+        uriparts = ()
+        uriparts += (str(api_version),)
+
+        TwitterStreamCall.__init__(
+            self, auth=auth, format="json", domain=domain,
+            callable_cls=TwitterStreamCall,
+            secure=secure, uriparts=uriparts)
