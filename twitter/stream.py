@@ -9,6 +9,7 @@ import json
 
 from .api import TwitterCall, wrap_response
 
+
 class TwitterJSONIter(object):
 
     def __init__(self, handle, uri, arg_data):
@@ -18,7 +19,7 @@ class TwitterJSONIter(object):
 
     def __iter__(self):
         while True:
-            self.buf += self.handle.read(1024)
+            self.buf += self.handle.read(3)
             try:
                 utf8_buf = self.buf.decode('utf8').lstrip()
                 res, ptr = self.decoder.raw_decode(utf8_buf)
